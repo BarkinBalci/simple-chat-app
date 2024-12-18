@@ -10,7 +10,7 @@ pipeline {
     stage('Test') {
       steps {
         echo 'Testing the application...'
-        sh 'npm test'  // assuming there's a simple test script that checks the homepage
+        sh 'npm test' 
       }
     }
     stage('Deploy') {

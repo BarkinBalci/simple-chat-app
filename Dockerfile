@@ -1,11 +1,17 @@
-# Use an official Nginx image as the base image
-FROM nginx:latest
+FROM node:14
 
-# Copy the static files to the default Nginx HTML directory
-COPY . /usr/share/nginx/html
+WORKDIR /app
 
-# Expose port 8080
+COPY package.json package-lock.json ./
+
+RUN npm install
+
+COPY public/ ./public
+COPY server.js ./
+
 EXPOSE 8080
 
-# Start Nginx when the container launches
-CMD ["nginx", "-g", "daemon off;"]
+HEALTHCHECK --interval=30s --timeout=10s CMD curl -f http://localhost:8080 || exit 1
+
+
+CMD ["node", "server.js"]
